@@ -1,0 +1,4 @@
+main
+*.o
+/deps/*/*.o
+/src/*.o
