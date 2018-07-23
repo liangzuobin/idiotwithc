@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
 #include <curl/curl.h>
+#include <string.h>
 #include "sha256/sha256.h"
 #include "uuid/uuid.h"
 
@@ -62,15 +62,6 @@ void request_demo()
 
 int main(void)
 {
-	char a[] = "hello";
-	char b[] = "world";
-	char buf[20];
-	strcpy(buf, "");
-	strcat(buf, a);
-	strcat(buf, " ");
-	strcat(buf, b);
-	printf("%s\n", buf);
-
 	uuid_demo();
 
 	sign_demo();
