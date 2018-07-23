@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <curl/curl.h>
 #include "sha256/sha256.h"
 #include "uuid/uuid.h"
 
@@ -29,6 +30,36 @@ void uuid_demo()
     printf("uuid = %s\n", buf);
 }
 
+void request_demo()
+{
+	CURL *curl;
+	if ((curl = curl_easy_init()))
+	{
+		curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
+		curl_easy_setopt(curl, CURLOPT_URL, "http://api.beta.meican.com/v2.1/libra/fixedpricepay");
+
+#ifdef SKIP_PEER_VERIFICATION
+		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+#endif
+
+#ifdef SKIP_HOSTNAME_VERIFICATION
+		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+#endif
+		struct curl_slist *headers = NULL;
+		headers = curl_slist_append(headers, "Cache-Control: no-cache");
+		headers = curl_slist_append(headers, "content-type: application/x-www-form-urlencoded; charset=utf-8");
+		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "param1=value1&param2=value2");
+
+		CURLcode ret = curl_easy_perform(curl);
+		if (ret != CURLE_OK)
+			fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(ret));
+
+		curl_easy_cleanup(curl);
+	}
+}
+
 int main(void)
 {
 	char a[] = "hello";
@@ -44,37 +75,7 @@ int main(void)
 
 	sign_demo();
 
+	request_demo();
+
 	return 0;
 }
-
-// char *send_request()
-// {
-// 	CURL *curl;
-// 	if ((curl = curl_easy_init()))
-// 	{
-// 		curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
-// 		curl_easy_setopt(curl, CURLOPT_URL, "http://api.meican.loc/v2.1/libra/fixedpricepay");
-
-// #ifdef SKIP_PEER_VERIFICATION
-// 		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-// #endif
-
-// #ifdef SKIP_HOSTNAME_VERIFICATION
-// 		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
-// #endif
-// 		struct curl_slist *headers = NULL;
-// 		headers = curl_slist_append(headers, "Cache-Control: no-cache");
-// 		headers = curl_slist_append(headers, "content-type: application/x-www-form-urlencoded; charset=utf-8");
-// 		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-
-// 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "param1=value1&param2=value2");
-
-// 		CURLcode ret = curl_easy_perform(curl);
-// 		if (ret != CURLE_OK)
-// 			fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(ret));
-
-// 		curl_easy_cleanup(curl);
-// 	}
-
-// 	return NULL;
-// }
