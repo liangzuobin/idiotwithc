@@ -16,9 +16,10 @@ void sign_demo()
 	int i;
 	for (i = 0; i < 32; i++)
 	{
-		sprintf(&ch[strlen(ch)], "%X", buf[i]);
+		sprintf(&ch[strlen(ch)], "%02X", buf[i]);
 		// printf("%s", ch);
 	}
+	printf("ex = %s\n", expect);
 	printf("ch = %s\n", ch);
 	printf("equals %d\n", strcmp((char *)expect, (char *)ch));
 }
