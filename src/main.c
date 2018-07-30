@@ -10,17 +10,17 @@ void sign_demo()
 	const char expect[] = "75947738A61E77D768A914761C1C692B3F660A1B52706420D87695CE4AB06E39";
 	const unsigned char to_sign[] = "nonce=abcedfg&param1=value1&param2=value2&timestamp=12345678higklmn";
 	unsigned char buf[32];
-	char *ch;
+	char ch[1024] = {0};
 	sha256_hash(buf, to_sign, strlen((char *)to_sign));
-	printf("sha256 = ");
+	// printf("sha256 = ");
 	int i;
 	for (i = 0; i < 32; i++)
 	{
-		sprintf(ch, "%X", buf[i]);
-		printf("%s", ch);
+		sprintf(&ch[strlen(ch)], "%X", buf[i]);
+		// printf("%s", ch);
 	}
-	printf("\n");
-	printf("equals %d\n", strcmp((char *)expect, (char *)buf));
+	printf("ch = %s\n", ch);
+	printf("equals %d\n", strcmp((char *)expect, (char *)ch));
 }
 
 void uuid_demo()
