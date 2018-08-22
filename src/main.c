@@ -28,7 +28,7 @@ void sign_demo()
 
 void uuid_demo()
 {
-    const char buf[37];
+    char buf[37];
     random_uuid(buf);
     printf("uuid = %s\n", buf);
 }
