@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 /**
  * Create random UUID
@@ -12,6 +13,8 @@ char *random_uuid(char buf[37])
     const char *c = "89ab";
     char *p = buf;
     int n;
+
+    srand(time(0));
 
     for (n = 0; n < 16; ++n)
     {
