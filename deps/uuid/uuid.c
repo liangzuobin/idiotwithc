@@ -14,8 +14,6 @@ char *random_uuid(char buf[37])
     char *p = buf;
     int n;
 
-    srand(time(0));
-
     for (n = 0; n < 16; ++n)
     {
         int b = rand() % 255;
@@ -60,4 +58,3 @@ char *random_uuid(char buf[37])
 
     return buf;
 }
-

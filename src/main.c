@@ -28,9 +28,9 @@ void sign_demo()
 
 void uuid_demo()
 {
-    char buf[37];
-    random_uuid(buf);
-    printf("uuid = %s\n", buf);
+	char buf[37];
+	random_uuid(buf);
+	printf("uuid = %s\n", buf);
 }
 
 void request_demo()
@@ -63,13 +63,35 @@ void request_demo()
 	}
 }
 
+void test_rand()
+{
+	printf("time %ld \n", time(NULL));
+	int i;
+	for (i = 0; i < 3; i++)
+	{
+		uuid_demo();
+	}
+}
+
 int main(void)
 {
-	uuid_demo();
+	// mv from deps uuid, cause this should be exec only once.
+	// 从 deps 的 uuid.c 里边挪出来，这句放在 main 函数里执行一次就行了。
+	srand(time(NULL));
 
-	sign_demo();
+	while (1)
+	{
+		// 监听程序...
+		// 坚挺到有刷卡，执行...
+		uuid_demo();
 
-	request_demo();
+		sign_demo();
+
+		request_demo();
+
+		test_rand();
+		usleep(2000 * 1000); // 2 seconds
+	}
 
 	return 0;
 }
